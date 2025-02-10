@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\LeaveController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -18,3 +19,4 @@ Route::prefix('auth')->group(function () {
 
 Route::resource('/admin', AdminController::class)->middleware('auth');
 Route::resource('/employee', EmployeeController::class)->middleware('auth');
+Route::resource('/leave', LeaveController::class)->middleware('auth');
