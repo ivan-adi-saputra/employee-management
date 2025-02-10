@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Pengguna</title>
+    <title>Daftar Karyawan</title>
     <style>
         table {
             width: 100%;
@@ -27,12 +27,8 @@
 
 <body>
 
-    <h2>Daftar Pengguna</h2>
-    <a href="{{ route('admin.create') }}">Tambah</a>
-    <form action="{{ route('logout') }}" method="post">
-        @csrf
-        <button type="submit">Logout</button>
-    </form>
+    <h2>Daftar Karyawan</h2>
+    <a href="{{ route('employee.create') }}">Tambah Karyawan</a>
 
     <table>
         <thead>
@@ -41,29 +37,35 @@
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Email</th>
+                <th>Phone</th>
+                <th>Gender</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            @forelse ($data as $item)
+            @forelse ($employees as $employee)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $item->first_name }}</td>
-                    <td>{{ $item->last_name }}</td>
-                    <td>{{ $item->email }}</td>
+                    <td>{{ $employee->first_name }}</td>
+                    <td>{{ $employee->last_name }}</td>
+                    <td>{{ $employee->email }}</td>
+                    <td>{{ $employee->phone }}</td>
+                    <td>{{ ucfirst($employee->gender) }}</td>
                     <td>
-                        <a href="{{ route('admin.show', $item->id) }}">Show</a> |
-                        <a href="{{ route('admin.edit', $item->id) }}">Edit</a> |
-                        <form action="{{ route('admin.destroy', $item->id) }}" method="POST">
+                        <a href="{{ route('employee.show', $employee->id) }}">Show</a> |
+                        <a href="{{ route('employee.edit', $employee->id) }}">Edit</a> |
+                        <form action="{{ route('employee.destroy', $employee->id) }}" method="POST"
+                            style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit">Delete</button>
+                            <button type="submit"
+                                onclick="return confirm('Are you sure you want to delete this employee?')">Delete</button>
                         </form>
                     </td>
                 </tr>
             @empty
                 <tr>
-                    <td>Admin not found</td>
+                    <td colspan="7" style="text-align: center;">No Employees Found</td>
                 </tr>
             @endforelse
         </tbody>

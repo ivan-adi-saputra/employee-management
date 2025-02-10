@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EmployeeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -11,8 +12,9 @@ Route::get('/', function () {
 Route::prefix('auth')->group(function () {
     Route::get('/signin', [AuthController::class, 'index'])->name('auth.signin');
     Route::post('/signin', [AuthController::class, 'signin'])->name('auth');
+
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
-Route::middleware(['auth'])->group(function () {
-    Route::resource('/admin', AdminController::class);
-});
+Route::resource('/admin', AdminController::class)->middleware('auth');
+Route::resource('/employee', EmployeeController::class)->middleware('auth');
